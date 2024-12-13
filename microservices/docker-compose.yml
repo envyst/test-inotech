@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  microservice1:
+    build:
+      context: ./microservice1
+    container_name: microservice1
+    ports:
+      - "5001:5001"
+    environment:
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5044
+    networks:
+      - microservices_network
+      - elk_network
+
+  microservice2:
+    build:
+      context: ./microservice2
+    container_name: microservice2
+    ports:
+      - "5002:5002"
+    environment:
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5044
+    networks:
+      - microservices_network
+      - elk_network
+
+networks:
+  microservices_network:
+    driver: bridge
+  elk_network:
+    external: true

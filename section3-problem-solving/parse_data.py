@@ -12,7 +12,7 @@ datas = [
 parameter = "electronics" #parameter if we need another category to be calculated
 
 #calculating average price for item category
-if datas:
+if datas: #make sure datas isn't empty
     qty = 0 #reset value
     prices = 0 #reset value
     for data in datas: #iterate all data
