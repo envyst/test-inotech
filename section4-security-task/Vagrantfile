@@ -1,0 +1,20 @@
+Vagrant.configure("2") do |config|
+  # Define VM
+  config.vm.box = "ubuntu/focal64" # Ubuntu 20.04
+
+  # Network configuration
+  config.vm.network "private_network", ip: "192.168.1.13"
+
+  # Provisioning: Install Filebeat and other dependencies
+  config.vm.provision "shell", inline: <<-SHELL
+    # Update system and install dependencies
+    apt-get update
+    apt-get install -y apt-transport-https wget
+    
+    # Install Filebeat
+    wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
+    echo "deb https://artifacts.elastic.co/packages/8.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-8.x.list
+    apt-get update
+    apt-get install -y filebeat
+  SHELL
+end
